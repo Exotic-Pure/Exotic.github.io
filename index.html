@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Exotic | Illidan</title>
+  <meta name="description" content="Exotic - Mythic Raiding Guild on Illidan" />
+  <style>
+    :root{
+      --bg:#07070a;
+      --panel:#0e0f14;
+      --text:#e9e9ee;
+      --muted:#a6a6b3;
+      --accent:#7c3aed;
+      --accent2:#22c55e;
+      --border:rgba(255,255,255,.10);
+      --shadow: 0 10px 30px rgba(0,0,0,.45);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(1000px 500px at 10% 0%, rgba(124,58,237,.25), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(34,197,94,.18), transparent 60%),
+        linear-gradient(180deg, #05050a, var(--bg));
+      min-height:100vh;
+    }
+    a{color:inherit}
+    .wrap{max-width:1100px; margin:0 auto; padding:28px 18px 70px;}
+    .top{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:14px; margin-bottom:22px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background: rgba(255,255,255,.03);
+      backdrop-filter: blur(8px);
+    }
+    .dot{width:10px; height:10px; border-radius:999px; background:var(--accent); box-shadow:0 0 22px rgba(124,58,237,.7);}
+    .brand b{letter-spacing:.4px}
+    .nav{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
+    .chip{
+      text-decoration:none;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background: rgba(255,255,255,.02);
+      transition: transform .12s ease, background .12s ease;
+      color:var(--muted);
+      font-weight:600;
+      font-size:14px;
+    }
+    .chip:hover{transform: translateY(-1px); background: rgba(255,255,255,.05); color:var(--text);}
+    .hero{
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.03);
+      box-shadow: var(--shadow);
+      padding:38px 22px;
+      overflow:hidden;
+      position:relative;
+    }
+    .hero:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(600px 200px at 20% 0%, rgba(124,58,237,.35), transparent 60%),
+                  radial-gradient(600px 200px at 80% 0%, rgba(34,197,94,.22), transparent 60%);
+      pointer-events:none;
+      opacity:.9;
+    }
+    .hero > *{position:relative}
+    h1{
+      margin:0 0 8px;
+      font-size: clamp(34px, 5vw, 56px);
+      letter-spacing:.4px;
+      line-height:1.05;
+    }
+    .sub{
+      margin:0;
+      color:var(--muted);
+      font-size: clamp(15px, 2.2vw, 18px);
+      line-height:1.5;
+      max-width: 70ch;
+    }
+    .cta{
+      display:flex; gap:12px; flex-wrap:wrap;
+      margin-top:18px;
+    }
+    .btn{
+      text-decoration:none;
+      padding:12px 16px;
+      border-radius: 12px;
+      border:1px solid var(--border);
+      font-weight:800;
+      letter-spacing:.2px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      background: rgba(255,255,255,.03);
+      transition: transform .12s ease, background .12s ease;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.06);}
+    .btn.primary{
+      border-color: rgba(124,58,237,.45);
+      background: linear-gradient(180deg, rgba(124,58,237,.35), rgba(124,58,237,.14));
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+      margin-top:14px;
+    }
+    .card{
+      grid-column: span 12;
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.03);
+      box-shadow: var(--shadow);
+      padding:18px;
+    }
+    @media (min-width: 860px){
+      .card.half{grid-column: span 6;}
+      .card.third{grid-column: span 4;}
+    }
+    h2{margin:0 0 10px; font-size:20px;}
+    p{margin:0; color:var(--muted); line-height:1.55}
+    ul{margin:10px 0 0; padding-left:18px; color:var(--muted); line-height:1.65}
+    .kv{
+      margin-top:10px;
+      display:grid;
+      gap:10px;
+    }
+    .kv div{
+      border:1px solid var(--border);
+      border-radius: 14px;
+      padding:12px;
+      background: rgba(0,0,0,.22);
+    }
+    .k{color:var(--muted); font-weight:700; font-size:12px; text-transform:uppercase}
+    .v{margin-top:4px; font-weight:900}
+    footer{
+      margin-top:18px;
+      color: rgba(255,255,255,.5);
+      font-size: 13px;
+      text-align:center;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <span class="dot"></span>
+        <b>Exotic</b>
+        <span style="color:var(--muted); font-weight:700;">• Illidan</span>
+      </div>
+      <div class="nav">
+        <a class="chip" href="#recruitment">Recruitment</a>
+        <a class="chip" href="#schedule">Schedule</a>
+        <a class="chip" href="#apply">Apply</a>
+        <a class="chip" href="#links">Links</a>
+      </div>
+    </div>
+
+    <section class="hero">
+      <h1>Exotic</h1>
+      <p class="sub">
+        Mythic progression guild on Illidan.  
+        We value consistency, mechanics, preparation, and team-first mentality.  
+        Show up. Improve weekly. Earn your spot.
+      </p>
+
+      <div class="cta">
+        <a class="btn primary" href="https://discord.gg/ExoticHQ" target="_blank">Join Discord</a>
+        <a class="btn" href="#schedule">Raid Times</a>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card half" id="recruitment">
+        <h2>Recruitment</h2>
+        <p>Looking for players who:</p>
+        <ul>
+          <li>Understand mechanics and use defensives properly</li>
+          <li>Show up consistently and respect raid time</li>
+          <li>Take feedback without ego</li>
+          <li>Care about improving every pull</li>
+        </ul>
+        <div class="kv">
+          <div>
+            <div class="k">High Priority</div>
+            <div class="v">Open — Strong DPS & Healers</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card half" id="schedule">
+        <h2>Raid Schedule</h2>
+        <div class="kv">
+          <div>
+            <div class="k">Thursday</div>
+            <div class="v">7:00–10:00 PM PST</div>
+          </div>
+          <div>
+            <div class="k">Friday</div>
+            <div class="v">7:00–10:00 PM PST</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card third" id="apply">
+        <h2>How to Apply</h2>
+        <ul>
+          <li>Join the Discord</li>
+          <li>Post logs if available</li>
+          <li>List main & offspec</li>
+          <li>Confirm availability</li>
+        </ul>
+      </section>
+
+      <section class="card third" id="links">
+        <h2>Links</h2>
+        <ul>
+          <li><a href="https://discord.gg/ExoticHQ" target="_blank">Discord</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <footer>
+      © <span id="y"></span> Exotic • Illidan
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
