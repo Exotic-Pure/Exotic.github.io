@@ -1,266 +1,702 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Exotic | US Illidan</title>
-<meta name="description" content="Exotic - Mythic Progression Guild on US Illidan">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Exotic • US Illidan</title>
+  <meta name="description" content="Exotic - Mythic Progression Guild on US Illidan" />
 
-<style>
-:root{
-  --bg:#07070a;
-  --panel:rgba(14,15,20,.85);
-  --text:#e9e9ee;
-  --muted:#a6a6b3;
-  --accent:#7c3aed;
-  --border:rgba(255,255,255,.10);
-  --shadow:0 15px 40px rgba(0,0,0,.55);
-  --radius:18px;
-}
+  <style>
+    :root{
+      --bg:#07070a;
+      --panel:rgba(14,15,20,.78);
+      --text:#e9e9ee;
+      --muted:#a6a6b3;
+      --accent:#a855f7;   /* purple */
+      --accent2:#22c55e;  /* green */
+      --border:rgba(255,255,255,.12);
+      --shadow: 0 14px 40px rgba(0,0,0,.55);
+      --radius: 18px;
+      --max: 1100px;
+    }
 
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
+      background:#05050a;
+      overflow-x:hidden;
+    }
 
-body{
-  margin:0;
-  font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-  color:var(--text);
-  background:#05050a;
-}
+    /* Animated Background (requires assets/hero.jpg) */
+    .bg{
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(1200px 600px at 12% 0%, rgba(168,85,247,.22), transparent 60%),
+        radial-gradient(1200px 600px at 88% 10%, rgba(34,197,94,.18), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.78));
+    }
+    .bg::before{
+      content:"";
+      position:absolute;
+      inset:-40px;
+      background-image: url("assets/hero.jpg");
+      background-size: cover;
+      background-position: center;
+      filter: saturate(1.05) contrast(1.05);
+      opacity: .35;
+      transform: scale(1.06);
+      animation: bgFloat 18s ease-in-out infinite alternate;
+    }
+    .bg::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.88));
+      z-index: 1;
+    }
+    @keyframes bgFloat{
+      0%{ transform: scale(1.06) translate3d(-10px,-6px,0); }
+      100%{ transform: scale(1.12) translate3d(12px,10px,0); }
+    }
 
-/* Background */
-.bg{
-  position:fixed;
-  inset:0;
-  z-index:-1;
-}
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 28px 18px 70px;
+    }
 
-.bg::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background-image:url("assets/hero.jpg");
-  background-size:cover;
-  background-position:center;
-  opacity:.45;
-}
+    /* Top Bar */
+    .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:18px;
+    }
 
-.bg::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(180deg, rgba(0,0,0,.65), rgba(0,0,0,.9));
-}
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background: rgba(0,0,0,.35);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 25px rgba(0,0,0,.25);
+      min-width: fit-content;
+    }
+    .crest{
+      width:26px; height:26px;
+      border-radius: 10px;
+      border:1px solid rgba(168,85,247,.35);
+      background:
+        radial-gradient(14px 14px at 30% 30%, rgba(168,85,247,.75), transparent 60%),
+        radial-gradient(14px 14px at 70% 70%, rgba(34,197,94,.55), transparent 60%),
+        rgba(255,255,255,.04);
+      box-shadow: 0 0 22px rgba(168,85,247,.25);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
+      letter-spacing:.2px;
+    }
+    .brand b{ letter-spacing:.4px; font-size: 14px; }
+    .tag{
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: .2px;
+    }
 
-/* Layout */
-.wrap{
-  max-width:1100px;
-  margin:0 auto;
-  padding:28px 18px 80px;
-}
+    .nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .chip{
+      text-decoration:none;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background: rgba(0,0,0,.25);
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 13px;
+      transition: transform .12s ease, background .12s ease, color .12s ease;
+    }
+    .chip:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+    }
 
-.top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:22px;
-}
+    /* Hero */
+    .hero{
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.03);
+      box-shadow: var(--shadow);
+      padding: 28px 22px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(700px 200px at 20% 0%, rgba(168,85,247,.20), transparent 60%),
+        radial-gradient(700px 200px at 80% 0%, rgba(34,197,94,.16), transparent 60%);
+      pointer-events:none;
+      opacity:.95;
+    }
+    .hero > *{ position:relative; }
 
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:10px 14px;
-  border:1px solid var(--border);
-  border-radius:999px;
-  background:rgba(255,255,255,.05);
-}
+    h1{
+      margin:0 0 8px;
+      font-size: clamp(34px, 5vw, 58px);
+      letter-spacing: .2px;
+      line-height: 1.05;
+    }
+    .sub{
+      margin:0;
+      color: var(--muted);
+      font-size: clamp(15px, 2.2vw, 18px);
+      line-height: 1.6;
+      max-width: 86ch;
+    }
 
-.dot{
-  width:10px;
-  height:10px;
-  border-radius:999px;
-  background:var(--accent);
-}
+    .cta{
+      display:flex;
+      gap:12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    .btn{
+      text-decoration:none;
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      font-weight: 900;
+      letter-spacing: .2px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      background: rgba(0,0,0,.25);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      color: rgba(255,255,255,.92);
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.06);
+    }
+    .btn.primary{
+      border-color: rgba(168,85,247,.55);
+      background: linear-gradient(180deg, rgba(168,85,247,.35), rgba(168,85,247,.12));
+    }
+    .btn.green{
+      border-color: rgba(34,197,94,.55);
+      background: linear-gradient(180deg, rgba(34,197,94,.28), rgba(34,197,94,.10));
+    }
+    .btn.raidio{
+      border-color: rgba(249, 115, 22, .65);
+      background: linear-gradient(180deg, rgba(249,115,22,.32), rgba(249,115,22,.10));
+    }
+    .btn.wcl{
+      border-color: rgba(239, 68, 68, .70);
+      background: linear-gradient(180deg, rgba(239,68,68,.30), rgba(239,68,68,.10));
+    }
 
-.nav{
-  display:flex;
-  gap:10px;
-}
+    .pillrow{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top: 14px;
+    }
+    .pill{
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(0,0,0,.22);
+      font-weight: 900;
+      font-size: 12px;
+      color: rgba(255,255,255,.88);
+      letter-spacing: .2px;
+    }
 
-.chip{
-  text-decoration:none;
-  padding:10px 14px;
-  border-radius:999px;
-  border:1px solid var(--border);
-  background:rgba(255,255,255,.05);
-  color:var(--muted);
-  font-weight:600;
-  transition:.2s ease;
-}
+    /* Cards grid */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .card{
+      grid-column: span 12;
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(0,0,0,.28);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      backdrop-filter: blur(10px);
+    }
+    @media (min-width: 880px){
+      .card.half{ grid-column: span 6; }
+      .card.third{ grid-column: span 4; }
+    }
 
-.chip:hover{
-  color:white;
-  background:rgba(255,255,255,.12);
-}
+    h2{
+      margin:0 0 10px;
+      font-size: 18px;
+      letter-spacing: .2px;
+    }
+    p{ margin:0; color: var(--muted); line-height: 1.65; }
+    ul{
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
 
-/* Hero */
-.hero{
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  background:var(--panel);
-  padding:40px 28px;
-  box-shadow:var(--shadow);
-}
+    .minirow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top: 10px;
+    }
+    .mini{
+      flex: 1 1 220px;
+      border:1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      background: rgba(0,0,0,.22);
+    }
+    .k{
+      color: var(--muted);
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing: .3px;
+      text-transform: uppercase;
+    }
+    .v{
+      margin-top: 5px;
+      font-weight: 950;
+      letter-spacing: .2px;
+      color: rgba(255,255,255,.92);
+    }
 
-.hero h1{
-  margin:0 0 10px;
-  font-size:clamp(36px,5vw,56px);
-}
+    /* Live badges */
+    .badges{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 12px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,.22);
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing: .2px;
+      color: rgba(255,255,255,.9);
+    }
+    .badge small{
+      font-weight: 800;
+      color: rgba(255,255,255,.65);
+    }
+    .badge.orange{ border-color: rgba(249,115,22,.45); }
+    .badge.green{ border-color: rgba(34,197,94,.45); }
+    .badge.purple{ border-color: rgba(168,85,247,.45); }
 
-.sub{
-  color:var(--muted);
-  line-height:1.6;
-  max-width:75ch;
-}
+    .progressLine{
+      margin-top: 10px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .progressLine b{ color: rgba(255,255,255,.90); }
 
-.cta{
-  margin-top:20px;
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-}
+    /* Rankings widget */
+    .rankCard{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(0,0,0,.26);
+      padding: 14px;
+      margin-top: 12px;
+    }
+    .rankTitle{
+      font-weight: 950;
+      letter-spacing: .2px;
+      margin: 2px 0 10px;
+    }
+    .progBar{
+      height: 22px;
+      border-radius: 12px;
+      border:1px solid var(--border);
+      background: rgba(0,0,0,.35);
+      overflow:hidden;
+      position:relative;
+    }
+    .progFill{
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, rgba(168,85,247,.55), rgba(34,197,94,.45));
+    }
+    .progText{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight: 950;
+      color: rgba(255,255,255,.92);
+      text-shadow: 0 2px 10px rgba(0,0,0,.65);
+      letter-spacing: .2px;
+      font-size: 12px;
+    }
+    .rankGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .rankBox{
+      border:1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(0,0,0,.20);
+      padding: 12px;
+      text-align:center;
+    }
+    .rankBig{
+      font-size: 40px;
+      font-weight: 1000;
+      line-height: 1;
+      margin: 2px 0 6px;
+      color: #22c55e;
+      text-shadow: 0 0 20px rgba(34,197,94,.25);
+    }
+    .rankLabel{
+      font-size: 12px;
+      color: rgba(255,255,255,.65);
+      font-weight: 900;
+      letter-spacing: .2px;
+      text-transform: uppercase;
+    }
+    .rankLink{
+      display:inline-block;
+      margin-top: 12px;
+      color: rgba(255,255,255,.75);
+      text-decoration:none;
+      border-bottom: 1px solid rgba(168,85,247,.35);
+      font-weight: 900;
+    }
+    .rankLink:hover{
+      color: rgba(255,255,255,.92);
+      border-bottom-color: rgba(34,197,94,.55);
+    }
 
-.btn{
-  padding:12px 18px;
-  border-radius:14px;
-  border:1px solid var(--border);
-  background:rgba(255,255,255,.05);
-  text-decoration:none;
-  color:white;
-  font-weight:800;
-  transition:.2s ease;
-}
-
-.btn:hover{
-  background:rgba(255,255,255,.15);
-}
-
-.btn.primary{
-  border-color:rgba(124,58,237,.6);
-  background:linear-gradient(180deg, rgba(124,58,237,.35), rgba(124,58,237,.15));
-}
-
-/* Cards */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(12,1fr);
-  gap:16px;
-  margin-top:18px;
-}
-
-.card{
-  grid-column:span 12;
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  background:var(--panel);
-  padding:22px;
-  box-shadow:var(--shadow);
-}
-
-@media(min-width:900px){
-  .half{grid-column:span 6;}
-}
-
-h2{margin:0 0 10px;}
-p, ul{color:var(--muted); line-height:1.6;}
-ul{padding-left:18px;}
-
-footer{
-  margin-top:28px;
-  text-align:center;
-  color:rgba(255,255,255,.5);
-  font-size:13px;
-}
-</style>
+    footer{
+      margin-top: 18px;
+      text-align:center;
+      color: rgba(255,255,255,.55);
+      font-size: 13px;
+    }
+  </style>
 </head>
 
 <body>
+  <div class="bg" aria-hidden="true"></div>
 
-<div class="bg"></div>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <span class="crest" title="Exotic">E</span>
+        <b>Exotic</b>
+        <span class="tag">• US Illidan</span>
+      </div>
 
-<div class="wrap">
+      <div class="nav">
+        <a class="chip" href="#leadership">Leadership</a>
+        <a class="chip" href="#recruitment">Recruitment</a>
+        <a class="chip" href="#schedule">Schedule</a>
+        <a class="chip" href="#rankings">Rankings</a>
+        <a class="chip" href="#apply">Apply</a>
+        <a class="chip" href="#links">Links</a>
+      </div>
+    </div>
 
-<div class="top">
-  <div class="brand">
-    <span class="dot"></span>
-    <b>Exotic</b>
-    <span style="color:var(--muted);font-weight:700;">• US Illidan</span>
+    <section class="hero" id="top">
+      <h1>Exotic</h1>
+      <p class="sub">
+        Semi-hardcore Mythic progression guild on US Illidan focused on consistency, accountability,
+        and long-term stability. We raid seriously without burnout and keep comms clean.
+      </p>
+
+      <div class="cta">
+        <a class="btn primary" href="https://discord.gg/ExoticHQ" target="_blank" rel="noreferrer">Join Discord</a>
+        <a class="btn green" href="#apply">Apply Here</a>
+        <a class="btn" href="#schedule">Raid Times</a>
+      </div>
+
+      <div class="pillrow">
+        <span class="pill">Semi-hardcore</span>
+        <span class="pill">Mythic progression</span>
+        <span class="pill">No drama</span>
+        <span class="pill">No ego</span>
+        <span class="pill">Consistency wins</span>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card half" id="leadership">
+        <h2>About Leadership</h2>
+        <p>Exotic is built on experience and unfinished goals.</p>
+        <p style="margin-top:10px;">
+          I previously led a Mythic progression guild and stepped away when my wife and I welcomed our baby.
+          It was the right decision. Family comes first, but the drive to lead and push Cutting Edge never left.
+        </p>
+        <p style="margin-top:10px;">
+          Now I’m back with the time, focus, and stability to build something the right way.
+        </p>
+        <p style="margin-top:10px;">
+          The War Within was about rebuilding and laying a real foundation. Moving into Midnight, the objective is clear:
+          earn our first Cutting Edge as a team and my first CE as a guild leader.
+        </p>
+        <p style="margin-top:10px;">
+          We’re not chasing hype. We’re building consistency. A stable roster. Clean comms. Real accountability.
+          No drama. No ego. Just steady progression toward something that lasts.
+        </p>
+      </section>
+
+      <section class="card half" id="recruitment">
+        <h2>Recruitment</h2>
+        <p>
+          We want players who show up prepared, take feedback, and improve weekly.
+          Trials are about mechanics and attitude, not resumes.
+        </p>
+        <ul>
+          <li>Preparation matters: be ready when raid starts</li>
+          <li>Mechanics matter: defensives, kicks, positioning, awareness</li>
+          <li>Attitude matters: no raging in comms, fix mistakes and move on</li>
+          <li>Consistency matters: show up and earn your spot over time</li>
+        </ul>
+
+        <div class="minirow">
+          <div class="mini">
+            <div class="k">Runs per week</div>
+            <div class="v">2 to 6 runs</div>
+          </div>
+          <div class="mini">
+            <div class="k">Vibe</div>
+            <div class="v">Semi-hardcore, no burnout</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card half" id="schedule">
+        <h2>Raid Schedule</h2>
+        <p>Compact and consistent.</p>
+        <div class="minirow" style="margin-top:12px;">
+          <div class="mini">
+            <div class="k">Thursday</div>
+            <div class="v">7:00 to 10:00 PM PST</div>
+          </div>
+          <div class="mini">
+            <div class="k">Friday</div>
+            <div class="v">7:00 to 10:00 PM PST</div>
+          </div>
+          <div class="mini">
+            <div class="k">Optional</div>
+            <div class="v">Alts, farm, keys</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- UPDATED: Single 8/8 panel + NA shown as "795 NA" -->
+      <section class="card half" id="rankings">
+        <h2>Rankings</h2>
+
+        <div class="rankCard">
+          <div class="rankTitle" id="raid-title">Loading…</div>
+
+          <div class="progBar">
+            <div class="progFill" id="raid-fill"></div>
+            <div class="progText" id="raid-prog">Loading…</div>
+          </div>
+
+          <div class="rankGrid" style="margin-top:16px;">
+            <div class="rankBox">
+              <div class="rankBig" id="raid-world">—</div>
+              <div class="rankLabel">World</div>
+            </div>
+            <div class="rankBox">
+              <div class="rankBig" id="raid-na">—</div>
+              <div class="rankLabel">NA</div>
+            </div>
+            <div class="rankBox">
+              <div class="rankBig" id="raid-realm">—</div>
+              <div class="rankLabel">Realm</div>
+            </div>
+          </div>
+
+          <a class="rankLink" href="https://raider.io/guilds/us/illidan/Exotic" target="_blank" rel="noreferrer">
+            View Rankings
+          </a>
+        </div>
+      </section>
+
+      <section class="card third" id="apply">
+        <h2>Apply</h2>
+        <p>
+          Apply through Discord. Tell us your main and off-spec, availability, and any logs you want to share.
+          We’ll get you into a trial run and see how you fit.
+        </p>
+        <div class="cta" style="margin-top:12px;">
+          <a class="btn primary" href="https://discord.gg/ExoticHQ" target="_blank" rel="noreferrer">Apply in Discord</a>
+        </div>
+        <ul>
+          <li>Main and off-spec</li>
+          <li>Role preference</li>
+          <li>Availability (Thu/Fri)</li>
+          <li>Logs if you have them</li>
+        </ul>
+      </section>
+
+      <section class="card third" id="links">
+        <h2>Guild Links</h2>
+
+        <div class="cta" style="margin-top:10px;">
+          <a class="btn raidio" href="https://raider.io/guilds/us/illidan/Exotic" target="_blank" rel="noreferrer">
+            Raider.IO
+          </a>
+          <a class="btn wcl" href="https://www.warcraftlogs.com/guild/us/illidan/Exotic" target="_blank" rel="noreferrer">
+            Warcraft Logs
+          </a>
+          <a class="btn primary" href="https://discord.gg/ExoticHQ" target="_blank" rel="noreferrer">
+            Discord
+          </a>
+        </div>
+
+        <div class="badges" aria-label="Live Progress Badges">
+          <span class="badge orange"><small>Raid</small> <span id="live-raid">Loading…</span></span>
+          <span class="badge green"><small>Mythic</small> <span id="live-mythic">Loading…</span></span>
+          <span class="badge purple"><small>Heroic</small> <span id="live-heroic">Loading…</span></span>
+        </div>
+
+        <div class="progressLine" id="live-progress-line">Pulling latest progression…</div>
+      </section>
+
+      <section class="card third">
+        <h2>Standards</h2>
+        <ul>
+          <li>Show up prepared and on time</li>
+          <li>Own mistakes and improve weekly</li>
+          <li>Respect raid time and comms</li>
+          <li>No drama, no ego</li>
+        </ul>
+      </section>
+    </div>
+
+    <footer>
+      © <span id="y"></span> Exotic • US Illidan
+    </footer>
   </div>
 
-  <div class="nav">
-    <a class="chip" href="#about">Leadership</a>
-    <a class="chip" href="#recruitment">Recruitment</a>
-    <a class="chip" href="#schedule">Schedule</a>
-  </div>
-</div>
+  <script>
+    // Footer year
+    document.getElementById("y").textContent = new Date().getFullYear();
 
-<section class="hero">
-  <h1>Exotic</h1>
-  <p class="sub">
-    Semi-hardcore Mythic progression guild focused on consistency,
-    accountability, and long-term stability.
-  </p>
+    // Raider.IO guild profile
+    const RIO_URL =
+      "https://raider.io/api/v1/guilds/profile?region=us&realm=illidan&name=Exotic&fields=raid_progression,raid_rankings";
 
-  <div class="cta">
-    <a class="btn primary" href="https://discord.gg/ExoticHQ" target="_blank">Join Discord</a>
-  </div>
-</section>
+    function parseFraction(summary){
+      const m = (summary || "").match(/(\d+)\s*\/\s*(\d+)/);
+      if(!m) return {x:0,y:0};
+      return {x:Number(m[1]), y:Number(m[2])};
+    }
 
-<div class="grid">
+    function pickBestMythicRaid(raidProgression){
+      const raids = Object.entries(raidProgression || {}).map(([slug,val]) => ({slug, ...val}));
+      if(!raids.length) return null;
+      raids.sort((a,b) => (b.mythic_bosses_killed||0) - (a.mythic_bosses_killed||0));
+      return raids[0];
+    }
 
-<section class="card half" id="about">
-<h2>About Leadership</h2>
-<p>
-Exotic is built on experience and unfinished goals.
-</p>
-<p>
-I previously led a Mythic progression guild and stepped away when my wife and I welcomed our baby.
-Family comes first, but the drive to push Cutting Edge never left.
-</p>
-<p>
-Now I’m back with the time and stability to build something the right way.
-Moving into Midnight, the objective is clear: earn our first Cutting Edge as a team — and my first CE as a guild leader.
-</p>
-</section>
+    async function loadAllRio(){
+      try{
+        const res = await fetch(RIO_URL, { headers: { "Accept":"application/json" }});
+        if(!res.ok) throw new Error("Raider.IO request failed: " + res.status);
+        const data = await res.json();
 
-<section class="card half" id="recruitment">
-<h2>Recruitment</h2>
-<ul>
-<li>Preparation matters</li>
-<li>Mechanics matter</li>
-<li>Consistency matters</li>
-<li>No drama. No ego.</li>
-</ul>
-</section>
+        const best = pickBestMythicRaid(data.raid_progression);
+        if(!best) return;
 
-<section class="card half" id="schedule">
-<h2>Raid Schedule</h2>
-<p>Thursday • 7:00–10:00 PM PST</p>
-<p>Friday • 7:00–10:00 PM PST</p>
-</section>
+        // --- LINKS CARD BADGES ---
+        document.getElementById("live-raid").textContent = best.name || "Current Raid";
+        const frac = parseFraction(best.summary || "");
+        const total = frac.y || (best.total_bosses || 0);
 
-</div>
+        // If summary exists it’s usually already correct
+        document.getElementById("live-mythic").textContent = (best.mythic_bosses_killed != null && total)
+          ? `${best.mythic_bosses_killed}/${total} M`
+          : "—";
+        document.getElementById("live-heroic").textContent = (best.heroic_bosses_killed != null && total)
+          ? `${best.heroic_bosses_killed}/${total} H`
+          : "—";
 
-<footer>
-© <span id="year"></span> Exotic • US Illidan
-</footer>
+        document.getElementById("live-progress-line").innerHTML =
+          `Current progression: <b>${best.summary || "Updated"}</b> (auto-updated)`;
 
-</div>
+        // --- RANKINGS CARD ---
+        document.getElementById("raid-title").textContent = best.name || "Current Raid";
+        document.getElementById("raid-prog").textContent = best.summary || "Progress unavailable";
 
-<script>
-document.getElementById("year").textContent = new Date().getFullYear();
-</script>
+        const pct = (frac.y > 0) ? Math.max(0, Math.min(100, (frac.x / frac.y) * 100)) : 0;
+        document.getElementById("raid-fill").style.width = pct.toFixed(1) + "%";
 
+        // Ranking data (may vary by raid)
+        const ranks = data.raid_rankings?.[best.slug]?.mythic || null;
+
+        document.getElementById("raid-world").textContent = ranks?.world ?? "—";
+
+        // Always show "795 NA" style if available; fallback to "—"
+        const naRank = ranks?.region ?? null;
+        document.getElementById("raid-na").textContent = naRank ? `${naRank} NA` : "—";
+
+        document.getElementById("raid-realm").textContent = ranks?.realm ?? "—";
+
+      } catch(err){
+        console.error(err);
+        // don’t crash the page, just show fallbacks
+        const safe = (id, txt) => { const el=document.getElementById(id); if(el) el.textContent=txt; };
+        safe("live-raid","Unavailable");
+        safe("live-mythic","—");
+        safe("live-heroic","—");
+        safe("live-progress-line","Live progression couldn’t load right now. Links still work above.");
+
+        safe("raid-title","Rankings unavailable");
+        safe("raid-prog","Couldn’t load Raider.IO right now");
+        safe("raid-world","—");
+        safe("raid-na","—");
+        safe("raid-realm","—");
+      }
+    }
+
+    loadAllRio();
+    setInterval(loadAllRio, 10 * 60 * 1000);
+  </script>
 </body>
 </html>
